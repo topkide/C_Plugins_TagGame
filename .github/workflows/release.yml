@@ -3,6 +3,9 @@ name: Release
 on:
   push:
     tags: ['v*']
+    # 임시: 태그 push 권한이 없는 환경에서 릴리스를 한 번 발행하기 위한 트리거.
+    # 릴리스 발행 후 제거 예정.
+    branches: ['claude/plugin-build-release-vpf095']
   workflow_dispatch:
     inputs:
       prerelease:
@@ -43,7 +46,9 @@ jobs:
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
-          if [ "${{ github.event_name }}" = "push" ]; then
+          # 태그 push 로 실행된 경우에만 그 태그를 쓰고,
+          # 그 외(수동 실행/브랜치 push)에는 gradle.properties 버전으로 태그를 만든다.
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
             echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
           else
             echo "tag=v$version" >> "$GITHUB_OUTPUT"
