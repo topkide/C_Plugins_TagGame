@@ -1,0 +1,21 @@
+name: '${projectName}'
+version: '${version}'
+main: '${group}.${packageName}.${projectName}Plugin'
+api-version: '1.21'
+author: 도토리마을
+description: 술래잡기 (술래 랜덤 선정 + 준비시간 + 보스바 타이머 + 나무 검 태그 판정)
+
+commands:
+  술잡:
+    description: 술래잡기 게임
+    usage: /술잡 <참가|나가기|시작|중단|재개|종료|강제종료|설정|상태|도움말>
+    aliases: [술래잡기, tag]
+  술잡관리:
+    description: 술래잡기 게임 정책 관리
+    usage: /술잡관리 <시민처리|공지|술래퇴장>
+    aliases: [tagadmin]
+
+permissions:
+  suljab.admin:
+    description: 술래잡기 게임 관리 권한
+    default: op

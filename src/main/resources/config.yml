@@ -1,0 +1,92 @@
+# ============ TagGame - 술래잡기 ============
+
+# 게임 제한시간 (초). 0이 되면 시민 승리  (/술잡 설정 타이머 <초>)
+game-seconds: 300
+
+# 술래가 움직일 수 없는 준비시간 (초)  (/술잡 설정 준비시간 <초>)
+prep-seconds: 60
+
+# 게임 시작 최소 참가 인원  (/술잡 설정 최소인원 <숫자>)
+min-players: 2
+
+# 랜덤으로 선정할 술래 수  (/술잡 설정 술래수 <숫자>)
+tagger-count: 1
+
+# 잡힌 시민 처리 방식: spectate(관전) / exclude(제외) / none(미설정 - 시작 불가)
+# (/술잡관리 시민처리 <관전|제외>)
+caught-mode: "none"
+
+# 시민이 잡혔을 때 전체 공지 여부  (/술잡관리 공지 <켜기|끄기>)
+catch-broadcast: true
+
+# 술래가 전원 서버를 나갔을 때: end(게임 종료) / reassign(시민 중 새 술래 선정)
+# (/술잡관리 술래퇴장 <종료|재선정>)
+tagger-quit-action: "end"
+
+# 준비시간 동안 술래에게 실명 효과 부여 (시야 차단)
+prep-blindness: true
+
+# 술래에게 지급되는 태그용 나무 검 (데미지 없음, 태그 판정 전용)
+sword:
+  name: "&c술래의 검"
+
+# 보스바 설정 (색상: BLUE / GREEN / PINK / PURPLE / RED / WHITE / YELLOW)
+bossbar:
+  prep-title: "&b준비시간"
+  prep-color: BLUE
+  game-title: "&e술래잡기"
+  game-color: YELLOW
+  low-color: RED          # 남은 시간 30초 이하일 때 색상
+  low-seconds: 30
+
+messages:
+  joined: "&a{player} 님이 술래잡기에 참가했습니다. (현재 {count}명)"
+  left: "&7{player} 님이 술래잡기 참가를 취소했습니다. (현재 {count}명)"
+  already-joined: "&7이미 참가 중입니다."
+  not-joined: "&7참가 중이 아닙니다."
+  cannot-join-now: "&c게임이 진행 중일 때는 참가할 수 없습니다."
+  cannot-leave-now: "&c게임이 진행 중일 때는 나갈 수 없습니다."
+  already-running: "&c이미 게임이 진행 중입니다."
+  need-more: "&c참가자가 {min}명 이상이어야 시작할 수 있습니다. (현재 {count}명)"
+  caught-mode-unset: "&c잡힌 시민 처리 방식이 설정되지 않았습니다. 먼저 &e/술잡관리 시민처리 <관전|제외> &c로 설정해주세요."
+  bad-tagger-count: "&c술래 수({count}명) 설정이 잘못되었습니다. 술래는 1명 이상, 참가자({players}명)보다 적어야 합니다."
+  game-start: "&e[술래잡기] 게임 시작! 술래: &c{taggers}"
+  prep-info: "&e술래는 {sec}초 동안 움직일 수 없습니다. 시민은 그동안 숨으세요!"
+  tagger-title: "&c당신은 술래입니다!"
+  tagger-subtitle: "&7{sec}초 후 움직일 수 있습니다"
+  citizen-title: "&a당신은 시민입니다!"
+  citizen-subtitle: "&7술래를 피해 숨으세요!"
+  start-title: "&c&l시작!!"
+  start-broadcast: "&c[술래잡기] 술래가 풀려났습니다! 도망치세요!"
+  caught: "&c{victim} &f님이 &c{tagger} &f님에게 잡혔습니다! &7(남은 시민 {count}명)"
+  caught-death: "&c{victim} &f님이 사망하여 잡힌 것으로 처리됩니다. &7(남은 시민 {count}명)"
+  caught-quit: "&c{victim} &f님이 서버를 나가 잡힌 것으로 처리됩니다. &7(남은 시민 {count}명)"
+  caught-title: "&c잡혔습니다!"
+  caught-subtitle: "&7다음 게임을 기다려주세요"
+  tagger-win-title: "&c&l술래 승!!!"
+  tagger-win: "&c[술래잡기] 술래가 모든 시민을 잡았습니다! 술래 승리!"
+  citizen-win-title: "&a&l시민 승!!!"
+  citizen-win: "&a[술래잡기] 시간이 종료되어 살아남은 시민이 승리했습니다!"
+  paused: "&6[술래잡기] 게임이 일시정지되었습니다. &7(남은 시간 {time})"
+  cannot-pause: "&c지금은 일시정지할 수 없습니다."
+  resumed: "&a[술래잡기] 게임이 재개되었습니다! &7(남은 시간 {time})"
+  not-paused: "&c일시정지된 게임이 없습니다."
+  stopped: "&7[술래잡기] 게임이 종료되었습니다."
+  force-stopped: "&c[술래잡기] 게임이 강제 종료되었습니다."
+  no-game: "&c진행 중인 게임이 없습니다."
+  timer-set: "&a게임 제한시간을 {sec}초로 설정했습니다. (다음 라운드부터 적용)"
+  prep-set: "&a준비시간을 {sec}초로 설정했습니다. (다음 라운드부터 적용)"
+  min-set: "&a최소 참가 인원을 {count}명으로 설정했습니다."
+  taggers-set: "&a술래 수를 {count}명으로 설정했습니다."
+  caught-mode-set: "&a잡힌 시민 처리 방식을 '{mode}' 으로 설정했습니다."
+  broadcast-on: "&a잡힘 공지를 켰습니다."
+  broadcast-off: "&7잡힘 공지를 껐습니다."
+  quit-action-set: "&a술래 전원 퇴장 시 처리를 '{mode}' 으로 설정했습니다."
+  tagger-quit-notify: "&c[알림] 술래 {player} 님이 서버를 나갔습니다."
+  tagger-quit-end: "&c[술래잡기] 술래가 모두 나가 게임을 종료합니다."
+  tagger-reassigned: "&c[술래잡기] {player} 님이 새로운 술래로 선정되었습니다!"
+  tagger-reassign-title: "&c당신이 새로운 술래입니다!"
+  inv-full: "&c인벤토리가 가득 차 술래의 검을 지급하지 못했습니다. 한 칸을 비워주세요."
+  bad-number: "&c올바른 숫자를 입력하세요."
+  player-only: "&c플레이어만 사용할 수 있습니다."
+  no-permission: "&c권한이 없습니다."
