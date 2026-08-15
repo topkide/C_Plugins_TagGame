@@ -2,6 +2,11 @@
 
 Paper 1.21.4 단일 서버용 술래잡기 미니게임 플러그인.
 
+## 다운로드
+
+[Releases](https://github.com/topkide/C_Plugins_TagGame/releases) 에서 최신 `TagGame-<버전>.jar` 을 받아
+서버 `plugins/` 폴더에 넣고 재시작하세요.
+
 ## 빌드
 
 JDK 21 필요.
@@ -10,7 +15,15 @@ JDK 21 필요.
 ./gradlew build
 ```
 
-빌드 결과물: `build/libs/TagGame-1.0.0.jar` → 서버 `plugins/` 폴더에 넣고 재시작.
+빌드 결과물: `build/libs/TagGame-1.0.1.jar` → 서버 `plugins/` 폴더에 넣고 재시작.
+
+GitHub Actions 로도 빌드됩니다.
+
+- **Build** — push / PR / 수동 실행 시 빌드하고 jar 을 아티팩트로 업로드
+- **Release** — `v*` 태그를 push 하거나 Actions 탭에서 수동 실행하면
+  빌드 후 GitHub 릴리스에 jar 을 첨부
+
+버전 변경 이력은 [CHANGELOG.md](CHANGELOG.md) 참고.
 
 ## 게임 흐름
 
