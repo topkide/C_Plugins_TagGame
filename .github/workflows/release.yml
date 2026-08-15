@@ -76,7 +76,9 @@ jobs:
             echo "릴리스 $TAG 가 이미 존재합니다. jar 만 갱신합니다."
             gh release upload "$TAG" "$jar" --clobber
           else
-            args=(--title "TagGame $TAG" --generate-notes)
+            # --target 으로 빌드에 사용된 정확한 커밋에 태그를 고정한다.
+            # (생략하면 기본 브랜치 HEAD 에 태그가 생겨 jar 과 소스가 어긋난다)
+            args=(--title "TagGame $TAG" --generate-notes --target "$GITHUB_SHA")
             if [ "$PRERELEASE" = "true" ]; then
               args+=(--prerelease)
             fi
