@@ -11,8 +11,13 @@ java {
 }
 
 repositories {
-    maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
+    // mavenCentral() 을 먼저 둔다.
+    // paper-api 의 전이 의존성(net.kyori:* 등)은 Central 에도 있는데,
+    // PaperMC 미러가 examination-string-1.3.0.jar 을 손상된 채로 내려주는
+    // 사례가 있어 컴파일 클래스패스 전체가 깨지는 문제가 있었다.
+    // paper-api 자체는 Central 에 없으므로 아래 PaperMC 저장소에서 계속 해석된다.
     mavenCentral()
+    maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
 }
 
 dependencies {

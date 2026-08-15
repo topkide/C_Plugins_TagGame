@@ -57,7 +57,17 @@ Adventure 의 전이 의존성 jar 하나가 **깨진 채로 다운로드**되�
 정상 빌드됨), Gradle 캐시 복원도 없었으므로 다운로드 자체가 간헐적으로
 손상된 파일을 받은 경우입니다.
 
-→ 두 워크플로의 빌드 단계에서 해당 오류 패턴이 감지되면
+캐시를 비우고 `--refresh-dependencies` 로 다시 받아도 **똑같이 깨진 파일**이
+내려왔습니다. 즉 일시적 네트워크 문제가 아니라 특정 저장소가 손상된 아티팩트를
+계속 서빙하는 상황이었습니다. 문제의 `net.kyori:examination-string` 은
+paper-api 의 전이 의존성이고 Maven Central 에도 존재하는데,
+`build.gradle` 이 PaperMC 저장소를 먼저 조회하도록 되어 있어
+Paper 미러의 깨진 사본을 받고 있었습니다.
+
+→ `repositories` 순서를 바꿔 `mavenCentral()` 을 먼저 조회하도록 했습니다.
+`paper-api` 자체는 Central 에 없으므로 PaperMC 저장소에서 그대로 해석됩니다.
+
+→ 추가로 두 워크플로의 빌드 단계에서 해당 오류 패턴이 감지되면
 `~/.gradle/caches/modules-2` 를 삭제하고 `--refresh-dependencies` 로
 **1회만 재시도**하도록 했습니다. 그 외의 실패(실제 컴파일 에러 등)는
 재시도 없이 즉시 실패합니다.
