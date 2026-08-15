@@ -82,7 +82,8 @@ Paper 미러의 깨진 사본을 받고 있었습니다.
 - `.github/workflows/build.yml` — push / PR / 수동 실행 시 JDK 21 로 빌드하고
   `TagGame-<version>.jar` 을 아티팩트로 업로드
 - `.github/workflows/release.yml` — `v*` 태그 push 또는 수동 실행 시 빌드하여
-  GitHub 릴리스에 jar 첨부
+  GitHub 릴리스에 jar 첨부. 태그는 `--target "$GITHUB_SHA"` 로 **실제 빌드에
+  사용된 커밋**에 고정되므로 릴리스의 소스와 jar 이 항상 일치합니다.
 
 ### 알려진 경고 (수정하지 않음)
 

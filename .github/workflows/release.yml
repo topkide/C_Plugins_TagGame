@@ -3,9 +3,6 @@ name: Release
 on:
   push:
     tags: ['v*']
-    # 임시: 태그 push 권한이 없는 환경에서 릴리스를 한 번 발행하기 위한 트리거.
-    # 릴리스 발행 후 제거 예정.
-    branches: ['claude/plugin-build-release-vpf095']
   workflow_dispatch:
     inputs:
       prerelease:
