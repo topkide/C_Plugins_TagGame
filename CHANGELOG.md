@@ -39,7 +39,30 @@ Node.js 20 is deprecated. The following actions target Node.js 20 but are being 
 | `actions/upload-artifact` | v4 | v7 |
 | `gradle/actions/setup-gradle` | v4 | v6 |
 
-**3. 빌드 산출물이 git 에 커밋될 수 있는 상태**
+**3. 의존성 jar 손상으로 인한 간헐적 컴파일 실패**
+
+CI 에서 아래 오류와 함께 `compileJava` 가 17개 에러로 실패하는 현상이 발생했습니다.
+
+```
+error: error reading .../net.kyori/examination-string/1.3.0/examination-string-1.3.0.jar;
+       zip END header not found
+error: cannot access com.dotorimaru.taggame
+error: cannot find symbol  symbol: class CommandSender
+error: cannot find symbol  symbol: class List      ← java.util.List 까지 못 찾음
+```
+
+Adventure 의 전이 의존성 jar 하나가 **깨진 채로 다운로드**되어, javac 이 컴파일
+클래스패스 전체를 읽지 못하고 `java.util.List` 같은 JDK 클래스까지 해석에
+실패한 것이 원인입니다. 소스 코드 문제가 아니며(동일한 소스가 직전 커밋에서
+정상 빌드됨), Gradle 캐시 복원도 없었으므로 다운로드 자체가 간헐적으로
+손상된 파일을 받은 경우입니다.
+
+→ 두 워크플로의 빌드 단계에서 해당 오류 패턴이 감지되면
+`~/.gradle/caches/modules-2` 를 삭제하고 `--refresh-dependencies` 로
+**1회만 재시도**하도록 했습니다. 그 외의 실패(실제 컴파일 에러 등)는
+재시도 없이 즉시 실패합니다.
+
+**4. 빌드 산출물이 git 에 커밋될 수 있는 상태**
 
 `.gitignore` 가 없어 `.gradle/`, `build/` 같은 로컬 빌드 캐시가 실수로 커밋될 수
 있었습니다. → `.gitignore` 추가.

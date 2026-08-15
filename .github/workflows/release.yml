@@ -54,8 +54,19 @@ jobs:
             echo "tag=v$version" >> "$GITHUB_OUTPUT"
           fi
 
+      # build.yml 과 동일: 깨진 의존성 jar 감지 시 캐시 비우고 1회 재시도
       - name: Build
-        run: ./gradlew build --no-daemon --stacktrace
+        run: |
+          set -o pipefail
+          if ! ./gradlew build --no-daemon --stacktrace 2>&1 | tee /tmp/build.log; then
+            if grep -qE 'zip END header not found|error reading .*\.jar' /tmp/build.log; then
+              echo "::warning::의존성 jar 손상 감지. 모듈 캐시를 비우고 재다운로드 후 재시도합니다."
+              rm -rf ~/.gradle/caches/modules-2
+              ./gradlew build --no-daemon --stacktrace --refresh-dependencies
+            else
+              exit 1
+            fi
+          fi
 
       - name: Verify jar
         run: |

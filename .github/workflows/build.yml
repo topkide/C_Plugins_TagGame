@@ -30,8 +30,21 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
+      # 의존성 jar 이 깨진 채로 받아지는 경우가 있어(zip END header not found),
+      # 그 징후가 보이면 모듈 캐시를 비우고 한 번만 재다운로드하여 재시도한다.
+      # 그 외의 실패(진짜 컴파일 에러 등)는 재시도 없이 즉시 실패시킨다.
       - name: Build
-        run: ./gradlew build --no-daemon --stacktrace
+        run: |
+          set -o pipefail
+          if ! ./gradlew build --no-daemon --stacktrace 2>&1 | tee /tmp/build.log; then
+            if grep -qE 'zip END header not found|error reading .*\.jar' /tmp/build.log; then
+              echo "::warning::의존성 jar 손상 감지. 모듈 캐시를 비우고 재다운로드 후 재시도합니다."
+              rm -rf ~/.gradle/caches/modules-2
+              ./gradlew build --no-daemon --stacktrace --refresh-dependencies
+            else
+              exit 1
+            fi
+          fi
 
       - name: Show build output
         run: ls -lh build/libs
